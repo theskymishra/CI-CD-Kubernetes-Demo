@@ -12,7 +12,7 @@ pipeline {
         K8S_DEPLOYMENT = 'ci-cd-webapp'
         K8S_CONTAINER = 'web'
         K8S_SERVICE = 'ci-cd-webapp-service'
-        NODE_PORT = '30080'
+        NODE_PORT = '30085'
     }
 
     stages {
@@ -58,7 +58,7 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(
-                        credentialsId: 'dockerhub-creds',
+                        credentialsId: 'dockerhubb-credss',
                         usernameVariable: 'DOCKERHUB_USER',
                         passwordVariable: 'DOCKERHUB_TOKEN'
                     )
@@ -81,7 +81,7 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(
-                        credentialsId: 'dockerhub-creds',
+                        credentialsId: 'dockerhubb-credss',
                         usernameVariable: 'DOCKERHUB_USER',
                         passwordVariable: 'DOCKERHUB_TOKEN'
                     )
@@ -118,7 +118,7 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(
-                        credentialsId: 'dockerhub-creds',
+                        credentialsId: 'dockerhubb-credss',
                         usernameVariable: 'DOCKERHUB_USER',
                         passwordVariable: 'DOCKERHUB_TOKEN'
                     )
