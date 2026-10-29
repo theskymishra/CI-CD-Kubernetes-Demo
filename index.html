@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LaunchPad | Project Dashboard</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #20243a;
+      --muted: #858ba4;
+      --purple: #6c63ff;
+      --border: #eceef5;
+      --sidebar: #17182e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    aside {
+      width: 235px;
+      background: var(--sidebar);
+      color: white;
+      padding: 28px 18px;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin: 0 10px 42px;
+    }
+
+    .brand span {
+      color: #9b95ff;
+    }
+
+    .nav-label {
+      color: #8587a7;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin: 25px 12px 12px;
+    }
+
+    .nav-item {
+      padding: 13px 12px;
+      border-radius: 10px;
+      color: #b8b9d0;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .nav-item.active {
+      background: #39355f;
+      color: white;
+    }
+
+    .sidebar-note {
+      margin-top: 65px;
+      padding: 17px;
+      border-radius: 14px;
+      background: #252644;
+      font-size: 12px;
+      line-height: 1.7;
+      color: #c7c7df;
+    }
+
+    main {
+      flex: 1;
+      min-width: 0;
+      padding: 35px 4%;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 34px;
+    }
+
+    h1 {
+      font-size: clamp(25px, 3vw, 32px);
+      letter-spacing: -1.1px;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      background: #e5e2ff;
+      color: #5145d8;
+      font-weight: 800;
+    }
+
+    .button {
+      border: 0;
+      background: var(--purple);
+      color: white;
+      padding: 13px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s, opacity .2s;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      opacity: .92;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 17px;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 23px;
+      box-shadow: 0 5px 20px rgba(28, 35, 70, .025);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .stat-number {
+      font-size: 30px;
+      font-weight: 800;
+      margin: 15px 0 8px;
+      letter-spacing: -1px;
+    }
+
+    .stat-foot {
+      font-size: 12px;
+      color: #258b68;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 32px 0 18px;
+    }
+
+    h2 {
+      font-size: 20px;
+      letter-spacing: -.4px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 21px;
+    }
+
+    .project-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      background: #eeebff;
+      font-size: 21px;
+    }
+
+    .badge {
+      background: #e8f8f0;
+      color: #258b68;
+      padding: 6px 9px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .project-card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      min-height: 42px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin: 22px 0 9px;
+    }
+
+    .progress {
+      height: 7px;
+      background: #eeeff6;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress div {
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #8a80ff, #6258ed);
+    }
+
+    .tasks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .task-check {
+      width: 21px;
+      height: 21px;
+      accent-color: var(--purple);
+      flex-shrink: 0;
+    }
+
+    .task-title {
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .task small {
+      display: block;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    .task.done .task-title {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    @media (max-width: 1100px) {
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .projects {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      aside {
+        display: none;
+      }
+
+      main {
+        padding: 25px 17px;
+      }
+
+      .projects,
+      .tasks {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        gap: 10px;
+      }
+
+      .card {
+        padding: 17px;
+      }
+
+      .stat-number {
+        font-size: 25px;
+      }
+
+      header {
+        margin-bottom: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">Launch<span>Pad.</span></div>
+
+      <div class="nav-label">WORKSPACE</div>
+      <div class="nav-item active">▦ &nbsp; Overview</div>
+      <div class="nav-item">▣ &nbsp; My Projects</div>
+      <div class="nav-item">✓ &nbsp; My Tasks</div>
+      <div class="nav-item">◷ &nbsp; Timeline</div>
+
+      <div class="nav-label">PREFERENCES</div>
+      <div class="nav-item">⚙ &nbsp; Settings</div>
+
+      <div class="sidebar-note">
+        <strong>Keep moving forward.</strong><br>
+        Great work happens one task at a time. Stay focused on your goals.
+      </div>
+    </aside>
+
+    <main>
+      <header>
+        <div>
+          <h1>Good morning, Creator ✨</h1>
+          <p class="subtitle">
+            Here's what's happening with your workspace today.
+          </p>
+        </div>
+
+        <div class="header-right">
+          <button class="button" id="addTask">+ Add task</button>
+          <div class="avatar">C</div>
+        </div>
+      </header>
+
+      <section class="stats">
+        <div class="card">
+          <div class="stat-label">Total projects</div>
+          <div class="stat-number">12</div>
+          <div class="stat-foot">↑ 2 added this month</div>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">Tasks completed</div>
+          <div class="stat-number" id="completedCount">18</div>
+          <div class="stat-foot">↑ Great progress this week</div>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">In progress</div>
+          <div class="stat-number">07</div>
+          <div class="muted">Across all projects</div>
+        </div>
+
+        <div class="card">
+          <div class="stat-label">Productivity score</div>
+          <div class="stat-number">86%</div>
+          <div class="stat-foot">↑ You're doing amazing</div>
+        </div>
+      </section>
+
+      <div class="section-heading">
+        <h2>Featured projects</h2>
+        <span class="muted">View all projects →</span>
+      </div>
+
+      <section class="projects">
+        <div class="card project-card">
+          <div class="project-top">
+            <div class="project-icon">🚀</div>
+            <span class="badge">On track</span>
+          </div>
+          <h3>Website Redesign</h3>
+          <p>A fresh digital experience for the next generation.</p>
+          <div class="progress-label">
+            <span class="muted">Progress</span><strong>78%</strong>
+          </div>
+          <div class="progress"><div style="width:78%"></div></div>
+        </div>
+
+        <div class="card project-card">
+          <div class="project-top">
+            <div class="project-icon">📱</div>
+            <span class="badge">On track</span>
+          </div>
+          <h3>Mobile Application</h3>
+          <p>Building an intuitive mobile experience from scratch.</p>
+          <div class="progress-label">
+            <span class="muted">Progress</span><strong>54%</strong>
+          </div>
+          <div class="progress"><div style="width:54%"></div></div>
+        </div>
+
+        <div class="card project-card">
+          <div class="project-top">
+            <div class="project-icon">🎨</div>
+            <span class="badge">On track</span>
+          </div>
+          <h3>Brand Identity</h3>
+          <p>Creating a distinctive and memorable visual language.</p>
+          <div class="progress-label">
+            <span class="muted">Progress</span><strong>92%</strong>
+          </div>
+          <div class="progress"><div style="width:92%"></div></div>
+        </div>
+      </section>
+
+      <div class="section-heading">
+        <h2>Today's focus</h2>
+        <span class="muted">Your personal task list</span>
+      </div>
+
+      <section class="tasks" id="taskList">
+        <div class="card task">
+          <input class="task-check" type="checkbox">
+          <div>
+            <div class="task-title">Finalize homepage design</div>
+            <small>Website Redesign · High priority</small>
+          </div>
+        </div>
+
+        <div class="card task">
+          <input class="task-check" type="checkbox">
+          <div>
+            <div class="task-title">Review pull requests</div>
+            <small>Development · Medium priority</small>
+          </div>
+        </div>
+
+        <div class="card task">
+          <input class="task-check" type="checkbox">
+          <div>
+            <div class="task-title">Prepare sprint planning</div>
+            <small>Team Collaboration · High priority</small>
+          </div>
+        </div>
+
+        <div class="card task">
+          <input class="task-check" type="checkbox">
+          <div>
+            <div class="task-title">Update project documentation</div>
+            <small>Documentation · Low priority</small>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        LaunchPad ©️ 2026 · Built for focused work and meaningful progress.
+        <br><br>
+        CI/CD demonstration · Docker · Jenkins · Kubernetes
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const taskList = document.getElementById("taskList");
+    const completedCount = document.getElementById("completedCount");
+
+    function updateTasks() {
+      let completed = 18;
+
+      document.querySelectorAll(".task").forEach(task => {
+        const checkbox = task.querySelector(".task-check");
+        task.classList.toggle("done", checkbox.checked);
+
+        if (checkbox.checked) {
+          completed++;
+        }
+      });
+
+      completedCount.textContent = completed;
+    }
+
+    taskList.addEventListener("change", updateTasks);
+
+    document.getElementById("addTask").addEventListener("click", () => {
+      const title = prompt("Enter your new task:");
+
+      if (!title || !title.trim()) {
+        return;
+      }
+
+      const task = document.createElement("div");
+      task.className = "card task";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.className = "task-check";
+
+      const content = document.createElement("div");
+      const taskTitle = document.createElement("div");
+      taskTitle.className = "task-title";
+      taskTitle.textContent = title.trim();
+
+      const description = document.createElement("small");
+      description.textContent = "Personal task · Just added";
+
+      content.append(taskTitle, description);
+      task.append(checkbox, content);
+      taskList.prepend(task);
+    });
+  </script>
+</body>
+</html>
